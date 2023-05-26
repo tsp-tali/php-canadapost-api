@@ -1,5 +1,5 @@
 {
-    "name": "darrylri/canadapost-api",
+    "name": "darrylri/php-canadapost-api",
     "type": "library",
     "description": "PHP Canada Post API",
     "keywords": ["canadapost", "api", "wrapper", "tracking", "shipping", "rate", "rating"],
