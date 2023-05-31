@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-          "darrylri\\CanadaPost\\": "src"
+          "CanadaPost\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-          "darrylri\\CanadaPost\\Tests\\": "tests/"
+          "CanadaPost\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
