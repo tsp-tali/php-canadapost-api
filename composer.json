@@ -1,5 +1,5 @@
 {
-    "name": "darrylri/php-canadapost-api",
+    "name": "tsp-tali/php-canadapost-api",
     "type": "library",
     "description": "PHP Canada Post API",
     "keywords": ["canadapost", "api", "wrapper", "tracking", "shipping", "rate", "rating"],
