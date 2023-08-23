@@ -33,24 +33,27 @@ class Rating extends ClientBase
     public function getRates(
         $originPostalCode,
         $postalCode,
+        $countryCode,
         $weight,
+        $dimensions,
+        $shippingDate,
         array $options = []
     ) {
         // Canada Post API needs all postal codes to be uppercase and no spaces.
         $originPostalCode = strtoupper(str_replace(' ', '', $originPostalCode));
         $postalCode = strtoupper(str_replace(' ', '', $postalCode));
 
+        $destination = $this->prepareDestination($countryCode, $postalCode);
+
         $content = [
             'customer-number' => $this->customerNumber,
+            'expected-mailing-date' => $shippingDate,
             'parcel-characteristics' => [
+                'dimensions' => $dimensions,
                 'weight' => $weight,
             ],
             'origin-postal-code' => $originPostalCode,
-            'destination' => [
-                'domestic' => [
-                    'postal-code' => $postalCode,
-                ],
-            ],
+            'destination' => $destination,
         ];
 
         // TODO split the options for Canada Post from the options for Guzzle.
@@ -157,5 +160,32 @@ class Rating extends ClientBase
         }
 
         return $services;
+    }
+
+    protected function prepareDestination(string $country, string $postalCode) {
+        switch($country){
+            case "CA" : $destination =
+                [
+                    'domestic' => [
+                        'postal-code' => $postalCode,
+                    ]
+                ];
+                break;
+            case "US" : $destination =
+                [
+                    'united-states' => [
+                        'zip-code' => $postalCode,
+                    ]
+                ];
+                break;
+            default:
+                $destination =
+                    [
+                        'international' => [
+                            'country-code' => $country,
+                        ],
+                    ];
+        }
+        return $destination;
     }
 }
