@@ -43,6 +43,36 @@ class Tracking extends ClientBase
     }
 
     /**
+     * Get the tracking number given a reference, postal code and order dates.
+     *
+     * @param string $orderid
+     *   The order number (W00...)
+     * @param string $postalCode
+     *   The postal code of the shipment
+     * @param string $mailFrom
+     *    Date from when order was created (for date range)
+     * @param string $mailTo
+     *    Date to (for date range)
+     * @param string $customerNumber
+     *    API customer number
+     * @param array $options
+     *   The options to pass along to the Guzzle Client.
+     *
+     * @return \DOMDocument
+     * @throws \GuzzleHttp\Exception\GuzzleException|\InvalidArgumentException
+     *@see https://www.canadapost.ca/cpo/mc/business/productsservices/developers/services/tracking/trackingsummary.jsf
+     */
+    public function getTrackingNumber($orderId, $postalCode, $mailFrom, $mailTo, $customerNumber, array $options = [])
+    {
+        $response = $this->get(
+            "vis/track/ref/summary?mailingDateTo={$mailTo}&destinationPostalCode={$postalCode}&customerNumber={$customerNumber}&mailingDateFrom={$mailFrom}&referenceNumber={$orderId}",
+            ['Accept' => 'application/vnd.cpc.track+xml'],
+            $options
+        );
+        return $response;
+    }
+
+    /**
      * Get the shipping rates for the given locations and weight.
      *
      * @param string $id
